@@ -1,0 +1,12 @@
+.card {
+  margin-top: 32px;
+  width: 400px;
+}
+.EpisodesContainer {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.EpisodesContainerOpen {
+  max-height: 300px;
+}
