@@ -48,6 +48,7 @@ const App = () => {
       </div>
       <div className="CardsContainer">
         <CharacterCardList 
+          loggedInUser={loggedInUser}
           favoritesList={favoritesList}
           setFavoritesList={val => setFavoritesList(val)}
           openCard={openCard} 

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { useQuery, gql } from '@apollo/client';
+import React, { useEffect, Component } from "react";
+import { useMutation, useQuery, gql } from '@apollo/client';
 import CharacterCard from './CharacterCard';
 
 import "./CharacterCardList.css";
@@ -26,6 +26,12 @@ import "./CharacterCardList.css";
 //     }
 //   }`;
 
+const UPDATE_USER = gql`
+  mutation UpdateUser ($input: UpdateUserInput) { 
+    updateuser (input: $input)
+  }
+`;
+
 const QUERY_FOR_ALL_CHARACTERS = gql`
   query GetAllCharacters { 
     characters
@@ -34,20 +40,37 @@ const QUERY_FOR_ALL_CHARACTERS = gql`
 
 const CharacterCardList = ({
   favoritesList,
+  loggedInUser,
   setFavoritesList,
   openCard,
   setOpenCard,
 }) => {
   const { loading, error, data } = useQuery(QUERY_FOR_ALL_CHARACTERS);
+  const [updateUser, { loading: loadingMutation }] = useMutation(UPDATE_USER,
+    {
+      variables: {
+        input: {
+          userobject: JSON.stringify(favoritesList),
+          currentuser: loggedInUser
+        },
+      }
+    });
 
+  const favoritesListLength = Object.keys(favoritesList).length
+  
+  useEffect(() => {
+    if (loggedInUser && favoritesListLength > 0) {
+      updateUser()
+    }
+  }, [favoritesListLength])
+  
   if (loading) 
-    return <p>Loading...</p>;
+  return <p>Loading...</p>;
 
   if (error || !data || !data.characters)
     return <p>Error :(</p>;
-  
+      
   const parsedResponse = JSON.parse(data.characters)
-  console.log('got data', parsedResponse);
   const { characters: { results } } = parsedResponse;
   return results.map(character => {
     const lastThreeEpisodes = () => {

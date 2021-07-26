@@ -7,9 +7,16 @@ const fetch = require('node-fetch')
 
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
+  input UpdateUserInput {
+    userobject: String
+    currentuser: String
+  }
   type Query {
     user (name: String): String
     characters: String
+  }
+  type Mutation {
+    updateuser (input: UpdateUserInput): String
   }
 `);
 
@@ -24,13 +31,38 @@ const getUser = async (userName) => {
       // parse JSON object
       const users = JSON.parse(data.toString());
       // print JSON object
-      console.log('got users from json file', users);
       if (users[userName]) {
-        console.log('user exists in fake db', users[userName])
         return resolve(JSON.stringify(users[userName]))
       }
       return resolve("{}")
     });
+  })
+}
+
+const getAllUsers = async () => {
+  return new Promise((resolve, reject) => {
+    // read JSON object from file
+    fs.readFile('./db.json', 'utf-8', (err, data) => {
+      if (err) {
+          return reject(err);
+      }
+
+      // parse JSON object
+      const users = JSON.parse(data.toString());
+      // print JSON object
+      return resolve(users);
+    });
+  })
+}
+
+const writeAllUsers = async (newData) => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile('./db.json', JSON.stringify(newData), (err) => {
+      if (err) {
+          return reject(err);
+      }
+      return resolve("JSON data is saved.");
+  });
   })
 }
 
@@ -79,10 +111,16 @@ var root = {
     })
     .then(res => res.json())
     .then(data => { 
-      console.log(data.data); 
       return JSON.stringify(data.data); 
     })
     return foo
+  },
+  updateuser: async (args) => {
+    const allUsers = await getAllUsers();
+    allUsers[args.input.currentuser] = JSON.parse(args.input.userobject)
+    await writeAllUsers(allUsers);
+    const updatedUsers = await getAllUsers()
+    return true
   }
 };
  

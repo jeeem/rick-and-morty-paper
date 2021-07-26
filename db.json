@@ -1,14 +1,1 @@
-{
-  "Foo": {
-    "Rick Sanchez": true,
-    "Agency Director": true
-  },
-  "Bar": {
-    "Morty Smith": true,
-    "Abradolf Lincler": true
-  },
-  "Baz": {
-    "Abadango Cluster Princess": true,
-    "Beth Smith": true
-  }
-}
+{"Foo":{"Rick Sanchez":true,"Morty Smith":true,"Jerry Smith":true,"Alexander":true,"Alan Rails":true,"Agency Director":true,"Annie":true},"keekee":{"Summer Smith":true,"Abadango Cluster Princess":true}}
