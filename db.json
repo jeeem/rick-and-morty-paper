@@ -1,0 +1,14 @@
+{
+  "Foo": {
+    "Rick Sanchez": true,
+    "Agency Director": true
+  },
+  "Bar": {
+    "Morty Smith": true,
+    "Abradolf Lincler": true
+  },
+  "Baz": {
+    "Abadango Cluster Princess": true,
+    "Beth Smith": true
+  }
+}
