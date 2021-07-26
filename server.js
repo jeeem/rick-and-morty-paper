@@ -3,11 +3,13 @@ const fs = require('fs')
 var { graphqlHTTP } = require('express-graphql');
 var { buildSchema } = require('graphql');
 const cors = require( `cors` );
+const fetch = require('node-fetch')
 
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
   type Query {
     user (name: String): String
+    characters: String
   }
 `);
 
@@ -42,6 +44,46 @@ var root = {
     return await getUser(args.name)
     // return JSON.stringify({ "Rick Sanchez": true });
   },
+  characters: async () => {
+    const foo = await fetch('https://rickandmortyapi.com/graphql', {
+      method: 'POST',
+    
+      headers: {
+        "Content-Type": "application/json"
+      },
+    
+      body: JSON.stringify({
+        query: `
+          query getCharacters {
+            characters(page: 1) {
+              results {
+                id
+                name
+                image
+                species
+                gender
+                status
+                origin {
+                  name
+                  dimension
+                }
+                episode {
+                  name
+                  air_date
+                }
+              }
+            }
+          }
+        `
+      })
+    })
+    .then(res => res.json())
+    .then(data => { 
+      console.log(data.data); 
+      return JSON.stringify(data.data); 
+    })
+    return foo
+  }
 };
  
 var app = express();

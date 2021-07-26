@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Component } from "react";
 
-import Provider from '../api/Provider';
 import LoginProvider from '../api/LoginProvider';
 import LogIn from '../components/LogIn';
 import CharacterCardList from '../components/CharacterCardList';
@@ -42,7 +41,7 @@ const App = () => {
   }
   
   return (
-    <Provider>
+    <LoginProvider>
       <div className="LoggedInUserContainer">
         <h3 className="LoggedInUserName">{loggedInUser}</h3>
         <button className="LogoutButton" onClick={() => onLogout()}>LOGOUT</button>
@@ -54,7 +53,7 @@ const App = () => {
           openCard={openCard} 
           setOpenCard={val => setOpenCard(val)}/>
       </div>
-    </Provider>
+    </LoginProvider>
   );
 }
 
