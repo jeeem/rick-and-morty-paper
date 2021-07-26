@@ -27,8 +27,10 @@ const QUERY_FOR_ALL_CHARACTERS = gql`
   }`;
 
 const CharacterCardList = ({
+  favoritesList,
+  setFavoritesList,
   openCard,
-  setOpenCard
+  setOpenCard,
 }) => {
   const { loading, error, data } = useQuery(QUERY_FOR_ALL_CHARACTERS);
 
@@ -49,6 +51,8 @@ const CharacterCardList = ({
     return (
       <CharacterCard 
         key={character?.name}
+        favoritesList={favoritesList}
+        setFavoritesList={setFavoritesList}
         character={character}
         lastThreeEpisodes={lastThreeEpisodes()}
         openCard={openCard} 

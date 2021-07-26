@@ -12,11 +12,9 @@ const App = () => {
   const [loggedInUser, setLoggedInUser] = useState("foo bar"); // either be a username or null
   const [inputValue, setInputValue] = useState("")
   const [openCard, setOpenCard] = useState(null)
-
-  console.log('loggedInUser', loggedInUser);
+  const [favoritesList, setFavoritesList] = useState({})
 
   const onLogin = () => {
-    console.log('attempting to log in inputValue', inputValue);
     if (inputValue) {
       setLoggedInUser(inputValue)
       setInputValue("")
@@ -24,7 +22,6 @@ const App = () => {
   }
 
   const onLogout = () => {
-    console.log('attempting to log out inputValue', inputValue);
     setLoggedInUser(null)
   }
 
@@ -45,7 +42,11 @@ const App = () => {
         <button className="LogoutButton" onClick={() => onLogout()}>LOGOUT</button>
       </div>
       <div className="CardsContainer">
-        <CharacterCardList openCard={openCard} setOpenCard={val => setOpenCard(val)}/>
+        <CharacterCardList 
+          favoritesList={favoritesList}
+          setFavoritesList={val => setFavoritesList(val)}
+          openCard={openCard} 
+          setOpenCard={val => setOpenCard(val)}/>
       </div>
     </Provider>
   );

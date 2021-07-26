@@ -4,6 +4,8 @@ import "./CharacterCard.css";
 
 const CharacterCard = ({
   character,
+  favoritesList, 
+  setFavoritesList,
   lastThreeEpisodes,
   openCard,
   setOpenCard
@@ -30,8 +32,38 @@ const CharacterCard = ({
       </div>
     )
   }
+
+  const isFavorite = !!favoritesList[name];
+
+  const toggleFavorite = () => {
+    const favoritesClone = Object.assign({}, favoritesList);
+    if (isFavorite) {
+      delete favoritesClone[name]
+    } else {
+      favoritesClone[name] = true
+    }
+    setFavoritesList(favoritesClone);
+  }
+
+  const renderHeader = () => {
+    return (
+      <div className="card-header">
+        <fieldset className="form-group">
+          <label htmlFor={`favoriteSwitch${name}`} className="paper-switch-label">
+            Toggle Favorite
+          </label>
+          <label className="paper-switch">
+            <input id={`favoriteSwitch${name}`} name={`favoriteSwitch${name}`} type="checkbox" checked={isFavorite} onChange={toggleFavorite}/>
+            <span className="paper-switch-slider round"></span>
+          </label>
+        </fieldset>
+      </div>
+    )
+  }
+
   return (
   <div className="card">
+    { renderHeader() }
     <img src={image} alt={`${name} image`} />
     <div className="card-body">
       <h4 className="card-title">{name}</h4>
